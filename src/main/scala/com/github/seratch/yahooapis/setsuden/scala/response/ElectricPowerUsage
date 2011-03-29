@@ -1,0 +1,34 @@
+package com.github.seratch.yahooapis.setsuden.scala.response
+
+import com.github.seratch.yahooapis.setsuden.fields.Area
+import org.joda.time.LocalDate
+
+case class ElectricPowerUsage(val area: Area = Area.tokyo,
+                              val usageKilowattPerHour: Long,
+                              val capacityKilowattPerHour: Long,
+                              val date: LocalDate,
+                              val hour: Int) {
+
+  def this(obj: com.github.seratch.yahooapis.setsuden.response.ElectricPowerUsage) =
+   this (obj.getArea,
+      obj.getUsageKilowattPerHour.longValue,
+      obj.getCapacityKilowattPerHour.longValue,
+      obj.getDate,
+      obj.getHour.intValue)
+
+  override def toString: String = {
+    val buf = new StringBuilder
+    buf.append("ElectricPowerUsage [area:")
+    buf.append(area.toString)
+    buf.append(",usageKilowattPerHour:")
+    buf.append(usageKilowattPerHour)
+    buf.append(",capacityKilowattPerHour:")
+    buf.append(capacityKilowattPerHour)
+    buf.append(",date:")
+    buf.append(date)
+    buf.append(",hour:")
+    buf.append(hour)
+    buf.append("]")
+    return buf.toString
+  }
+}

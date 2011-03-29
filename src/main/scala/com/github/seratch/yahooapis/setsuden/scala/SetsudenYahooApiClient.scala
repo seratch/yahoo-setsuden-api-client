@@ -26,30 +26,40 @@ class SetsudenYahooApiClient(val applicationId: String) {
   val USER_AGENT = "SetsudenYahooApiClient HTTP Fetcher (+https://github.com/seratch/yahoo-setsuden-api-client)"
 
   def getLatestPowerUsage(params: RequestParameters): ElectricPowerUsageResponse = {
+
     val url = new StringBuilder
     url.append(Urls.LATEST_POWER_USAGE)
     url.append("?appid=")
     url.append(applicationId)
     url.append("&")
     url.append(params.toString)
-    val conn: HttpURLConnection = new URL(url.toString).openConnection.asInstanceOf[HttpURLConnection]
+
+    val conn = new URL(url.toString).openConnection.asInstanceOf[HttpURLConnection]
     conn.setConnectTimeout(3000)
     conn.setReadTimeout(10000)
     conn.setRequestProperty("User-Agent", USER_AGENT)
     conn.setRequestMethod("GET")
-    conn.connect
+
+    conn.connect()
+
+    import scala.collection.JavaConverters._
+
     val headersInJava = conn.getHeaderFields
     val headerMapBuffer = new collection.mutable.HashMap[String, List[String]]
-    import scala.collection.JavaConverters._
     headersInJava.keySet.asScala foreach {
-      case key => headerMapBuffer.update(key, headersInJava.get(key).asScala.toList)
+      case key =>
+        headerMapBuffer.update(
+          key,
+          headersInJava.get(key).asScala.toList)
     }
+
     return ElectricPowerUsageResponse(
       statusCode = conn.getResponseCode.intValue,
       headers = headerMapBuffer.toMap,
       rawContent = getResponseCotent(conn, "UTF-8"),
       requestedOutput = params.output
     )
+
   }
 
   private[setsuden]
@@ -58,7 +68,10 @@ class SetsudenYahooApiClient(val applicationId: String) {
     var br: BufferedReader = null
     try {
       is = conn.getInputStream
-      val isr = if ((charset != null)) new InputStreamReader(is, charset) else new InputStreamReader(is)
+      val isr = charset match {
+        case null => new InputStreamReader(is)
+        case _ => new InputStreamReader(is, charset)
+      }
       br = new BufferedReader(isr)
       val buf = new StringBuilder
       var line: String = null

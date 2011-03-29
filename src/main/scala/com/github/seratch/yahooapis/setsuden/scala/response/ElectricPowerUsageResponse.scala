@@ -23,43 +23,41 @@ import java.io.{ByteArrayInputStream, IOException}
 import javax.xml.parsers.{SAXParserFactory, ParserConfigurationException}
 import com.github.seratch.yahooapis.setsuden.fields.{Area, Output}
 
-case class ElectricPowerUsageResponse(val statusCode: Int, val headers: Map[String, List[String]], val rawContent: String, val requestedOutput: Output = Output.xml) {
+case class ElectricPowerUsageResponse(val statusCode: Int,
+                                      val headers: Map[String, List[String]],
+                                      val rawContent: String,
+                                      val requestedOutput: Output = Output.xml) {
 
   def electricPowerUsage: ElectricPowerUsage = {
-    if (requestedOutput == null || requestedOutput == Output.xml) {
-      try {
-        val handler: ElectricPowerUsageSAXParser = new ElectricPowerUsageSAXParser
-        val saxp = SAXParserFactory.newInstance.newSAXParser
-        saxp.parse(new ByteArrayInputStream(rawContent.getBytes("UTF-8")), handler)
-        return new ElectricPowerUsage(handler.getElectricPowerUsage)
-      }
-      catch {
-        case e: ParserConfigurationException => {
-          throw new ClientException("Cannot read xml file!", e)
-        }
-        case e: SAXException => {
-          throw new ClientException("Cannot read xml file!", e)
-        }
-        case e: IOException => {
-          throw new ClientException("Cannot read xml file!", e)
+    requestedOutput match {
+      case Output.xml => {
+        val errorMessage = "Cannot parse xml data";
+        try {
+          val handler: ElectricPowerUsageSAXParser = new ElectricPowerUsageSAXParser
+          val saxp = SAXParserFactory.newInstance.newSAXParser
+          saxp.parse(new ByteArrayInputStream(rawContent.getBytes("UTF-8")), handler)
+          return new ElectricPowerUsage(handler.getElectricPowerUsage)
+        } catch {
+          case e: ParserConfigurationException => throw new ClientException(errorMessage, e)
+          case e: SAXException => throw new ClientException(errorMessage, e)
+          case e: IOException => throw new ClientException(errorMessage, e)
         }
       }
-    }
-    else if (requestedOutput == Output.json) {
-      val json: JSONObject = JSONObject.fromObject(rawContent).getJSONObject("ElectricPowerUsage")
-      val javaObj = new com.github.seratch.yahooapis.setsuden.response.ElectricPowerUsage
-      javaObj.setArea(Area.valueOf(json.getString("Area")))
-      javaObj.setUsageKilowattPerHour(json.getJSONObject("Usage").getLong("$"))
-      javaObj.setCapacityKilowattPerHour(json.getJSONObject("Capacity").getLong("$"))
-      javaObj.setDate(javaObj.getDateFormat.parseDateTime(json.getString("Date")).toLocalDate)
-      javaObj.setHour(json.getInt("Hour"))
-      return new ElectricPowerUsage(javaObj)
-    }
-    else if (requestedOutput == Output.php) {
-      throw new UnsupportedOperationException("Currently unsupported")
-    }
-    else {
-      throw new ClientException("Unexpected value:" + requestedOutput.toString, new IllegalArgumentException)
+      case Output.json => {
+        val json: JSONObject = JSONObject.fromObject(rawContent).getJSONObject("ElectricPowerUsage")
+        val javaObject = new com.github.seratch.yahooapis.setsuden.response.ElectricPowerUsage
+        return ElectricPowerUsage(
+          area = Area.valueOf(json.getString("Area")),
+          usageKilowattPerHour = json.getJSONObject("Usage").getLong("$").longValue,
+          capacityKilowattPerHour = json.getJSONObject("Capacity").getLong("$").longValue,
+          date = javaObject.getDateFormat.parseDateTime(json.getString("Date")).toLocalDate,
+          hour = json.getInt("Hour").intValue
+        )
+      }
+      case Output.php =>
+        throw new UnsupportedOperationException("Currently unsupported")
+      case _ =>
+        throw new ClientException("Unexpected value:" + requestedOutput, new IllegalArgumentException)
     }
   }
 

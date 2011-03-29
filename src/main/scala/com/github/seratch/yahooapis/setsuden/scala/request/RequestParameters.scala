@@ -17,7 +17,7 @@ package com.github.seratch.yahooapis.setsuden.scala.request
 
 import com.github.seratch.yahooapis.setsuden.fields._
 
-case class RequestParameters(val output: Output = null,
+case class RequestParameters(val output: Output = Output.xml,
                         val jsonpCallbackUrl: String = null,
                         val area: Area = Area.tokyo,
                         val yyyymmddhh: String = null) {

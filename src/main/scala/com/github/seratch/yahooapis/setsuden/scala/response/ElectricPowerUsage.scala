@@ -24,12 +24,13 @@ case class ElectricPowerUsage(val area: Area = Area.tokyo,
                               val date: LocalDate,
                               val hour: Int) {
 
-  def this(obj: com.github.seratch.yahooapis.setsuden.response.ElectricPowerUsage) =
-   this (obj.getArea,
-      obj.getUsageKilowattPerHour.longValue,
-      obj.getCapacityKilowattPerHour.longValue,
-      obj.getDate,
-      obj.getHour.intValue)
+  def this(javaObject: com.github.seratch.yahooapis.setsuden.response.ElectricPowerUsage) = {
+    this (javaObject.getArea,
+      javaObject.getUsageKilowattPerHour.longValue,
+      javaObject.getCapacityKilowattPerHour.longValue,
+      javaObject.getDate,
+      javaObject.getHour.intValue)
+  }
 
   override def toString: String = {
     val buf = new StringBuilder
@@ -46,4 +47,5 @@ case class ElectricPowerUsage(val area: Area = Area.tokyo,
     buf.append("]")
     return buf.toString
   }
+
 }

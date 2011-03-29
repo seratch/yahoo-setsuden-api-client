@@ -35,16 +35,16 @@ http://developer.yahoo.co.jp/webapi/shinsai/setsuden/v1/latestpowerusage.html
 
 ### Java版
 
-    String applicationId = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+    String applicationId = "...";
     SetsudenYahooApiClient client = new SetsudenYahooApiClient(applicationId);
-    RequestParameters params = new RequestParameters(Output.xml, Area.tokyo, "2011032901");
+    RequestParameters params = new RequestParameters(Area.tokyo, "2011032901");
     ElectricPowerUsageResponse response = client.getLatestPowerUsage(params);
     System.out.println(response.getElectricPowerUsage());
     // ElectricPowerUsage [area:tokyo,usageKilowattPerHour:27300000,capacityKilowattPerHour:38500000,date:2011-03-29,hour:1]
 
 ### Scala版
 
-    val applicationId = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    val applicationId = "..."
     val client = new SetsudenYahooApiClient(applicationId)
     val response = client.getLatestPowerUsage(RequestParameters(yyyymmddhh = "2011032901"))
     println(response.electricPowerUsage)

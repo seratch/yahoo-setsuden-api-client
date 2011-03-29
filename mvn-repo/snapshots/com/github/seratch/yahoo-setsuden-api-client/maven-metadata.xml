@@ -2,11 +2,10 @@
 <metadata>
   <groupId>com.github.seratch</groupId>
   <artifactId>yahoo-setsuden-api-client</artifactId>
-  <version>1.0-SNAPSHOT</version>
   <versioning>
     <versions>
       <version>1.0-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20110329144426</lastUpdated>
+    <lastUpdated>20110329174513</lastUpdated>
   </versioning>
 </metadata>

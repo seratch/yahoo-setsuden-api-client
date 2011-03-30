@@ -18,31 +18,43 @@ package com.github.seratch.yahooapis.setsuden.scala.request
 import com.github.seratch.yahooapis.setsuden.fields._
 
 case class RequestParameters(val output: Output = Output.xml,
-                        val jsonpCallbackUrl: String = null,
-                        val area: Area = Area.tokyo,
-                        val yyyymmddhh: String = null) {
+                             val jsonpCallbackUrl: String = null,
+                             val area: Area = Area.tokyo,
+                             val yyyymmddhh: String = null) {
 
   override def toString: String = {
     val buf = new StringBuilder
-    if (output != null) {
-      if (buf.length > 0) buf.append("&")
-      buf.append("output=")
-      buf.append(output.toString)
+    output match {
+      case null =>
+      case _ => {
+        if (buf.length > 0) buf.append("&")
+        buf.append("output=")
+        buf.append(output.toString)
+      }
     }
-    if (jsonpCallbackUrl != null) {
-      if (buf.length > 0) buf.append("&")
-      buf.append("callback=")
-      buf.append(jsonpCallbackUrl)
+    jsonpCallbackUrl match {
+      case null =>
+      case _ => {
+        if (buf.length > 0) buf.append("&")
+        buf.append("callback=")
+        buf.append(jsonpCallbackUrl)
+      }
     }
-    if (area != null) {
-      if (buf.length > 0) buf.append("&")
-      buf.append("area")
-      buf.append(area.toString)
+    area match {
+      case null =>
+      case _ => {
+        if (buf.length > 0) buf.append("&")
+        buf.append("area=")
+        buf.append(area.toString)
+      }
     }
-    if (yyyymmddhh != null) {
-      if (buf.length > 0) buf.append("&")
-      buf.append("datetime=")
-      buf.append(yyyymmddhh)
+    yyyymmddhh match {
+      case null =>
+      case _ => {
+        if (buf.length > 0) buf.append("&")
+        buf.append("datetime=")
+        buf.append(yyyymmddhh)
+      }
     }
     return buf.toString
   }

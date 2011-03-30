@@ -25,6 +25,10 @@ class SetsudenYahooApiClient(val applicationId: String) {
 
   val USER_AGENT = "SetsudenYahooApiClient HTTP Fetcher (+https://github.com/seratch/yahoo-setsuden-api-client)"
 
+  def getLatestPowerUsage(): ElectricPowerUsageResponse = {
+    return getLatestPowerUsage(new RequestParameters)
+  }
+
   def getLatestPowerUsage(params: RequestParameters): ElectricPowerUsageResponse = {
 
     val url = new StringBuilder

@@ -104,7 +104,7 @@ public class RequestParameters {
 		if (area != null) {
 			if (buf.length() > 0)
 				buf.append("&");
-			buf.append("area");
+			buf.append("area=");
 			buf.append(area.toString());
 		}
 		if (yyyymmddhh != null) {

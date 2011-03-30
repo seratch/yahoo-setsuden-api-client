@@ -19,11 +19,7 @@ import com.github.seratch.yahooapis.setsuden.request.RequestParameters;
 import com.github.seratch.yahooapis.setsuden.request.Urls;
 import com.github.seratch.yahooapis.setsuden.response.ElectricPowerUsageResponse;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -35,6 +31,10 @@ public class SetsudenYahooApiClient {
 
 	public SetsudenYahooApiClient(String applicationId) {
 		this.applicationId = applicationId;
+	}
+
+	public ElectricPowerUsageResponse getLatestPowerUsage() throws IOException {
+		return getLatestPowerUsage(new RequestParameters());
 	}
 
 	public ElectricPowerUsageResponse getLatestPowerUsage(

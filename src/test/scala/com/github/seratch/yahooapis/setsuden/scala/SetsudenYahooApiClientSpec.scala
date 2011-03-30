@@ -14,7 +14,7 @@ object SetsudenYahooApiClientSpec extends Specification {
         props.load(SetsudenYahooApiClientSpec.getClass.getClassLoader.getResourceAsStream("yahoo-developer.properties"))
         val applicationId = props.getProperty("applicationId")
         val client = new SetsudenYahooApiClient(applicationId)
-        val response = client.getLatestPowerUsage(RequestParameters(yyyymmddhh = "2011032901"))
+        val response = client.getLatestPowerUsage()
         println(response.electricPowerUsage)
         response mustNotBe null
         response.statusCode mustEqual 200
@@ -36,6 +36,7 @@ object SetsudenYahooApiClientSpec extends Specification {
         response mustNotBe null
         response.statusCode mustEqual 200
         response.electricPowerUsage mustNotBe null
+        println(response.electricPowerUsage)
       }
       catch {
         case e: Exception => {

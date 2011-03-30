@@ -43,6 +43,15 @@ public class SetsudenYahooApiClientTest {
 	}
 
 	@Test
+	public void getLatestPowerUsage_A$() throws Exception {
+		SetsudenYahooApiClient client = new SetsudenYahooApiClient(applicationId);
+		ElectricPowerUsageResponse response = client.getLatestPowerUsage();
+		System.out.println(response.getElectricPowerUsage().toString());
+		assertNotNull(response);
+		assertNotNull(response.getElectricPowerUsage());
+	}
+
+	@Test
 	public void getLatestPowerUsage_A$RequestParameters_XML() throws Exception {
 		SetsudenYahooApiClient client = new SetsudenYahooApiClient(applicationId);
 		RequestParameters params = new RequestParameters(Output.xml,

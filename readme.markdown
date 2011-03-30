@@ -8,7 +8,7 @@ http://developer.yahoo.co.jp/webapi/shinsai/setsuden/v1/latestpowerusage.html
 
 ### ダウンロード
 
-    ./download/yahoo-setsuden-api-client-1.0-SNAPSHOT.jar
+    ./download/yahoo-setsuden-api-client-1.0.jar
 
 ### Maven2経由
 
@@ -28,7 +28,7 @@ http://developer.yahoo.co.jp/webapi/shinsai/setsuden/v1/latestpowerusage.html
     <dependency>
       <groupId>com.github.seratch</groupId>
       <artifactId>yahoo-setsuden-api-client</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>1.0</version>
     </dependency>
 
 ## 実装サンプル
@@ -37,8 +37,13 @@ http://developer.yahoo.co.jp/webapi/shinsai/setsuden/v1/latestpowerusage.html
 
     String applicationId = "...";
     SetsudenYahooApiClient client = new SetsudenYahooApiClient(applicationId);
-    RequestParameters params = new RequestParameters(Area.tokyo, "2011032901");
+
+    // 最新の電力使用状況を取得する
+    ElectricPowerUsageResponse recent = client.getLatestPowerUsage();
+
+    // 日時などを指定して電力使用状況を取得する
     ElectricPowerUsageResponse response = client.getLatestPowerUsage(params);
+    RequestParameters params = new RequestParameters(Area.tokyo, "2011032901");
     System.out.println(response.getElectricPowerUsage());
     // ElectricPowerUsage [area:tokyo,usageKilowattPerHour:27300000,capacityKilowattPerHour:38500000,date:2011-03-29,hour:1]
 
@@ -46,6 +51,11 @@ http://developer.yahoo.co.jp/webapi/shinsai/setsuden/v1/latestpowerusage.html
 
     val applicationId = "..."
     val client = new SetsudenYahooApiClient(applicationId)
+
+    // 最新の電力使用状況を取得する
+    val recent = client.getLatestPowerUsage();
+
+    // 日時などを指定して電力使用状況を取得する
     val response = client.getLatestPowerUsage(RequestParameters(yyyymmddhh = "2011032901"))
     println(response.electricPowerUsage)
     // ElectricPowerUsage [area:tokyo,usageKilowattPerHour:27300000,capacityKilowattPerHour:38500000,date:2011-03-29,hour:1]

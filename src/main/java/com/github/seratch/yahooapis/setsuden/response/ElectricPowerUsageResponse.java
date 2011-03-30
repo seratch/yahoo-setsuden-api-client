@@ -76,19 +76,19 @@ public class ElectricPowerUsageResponse {
 	public ElectricPowerUsage getElectricPowerUsage() {
 		ElectricPowerUsage electricPowerUsage = new ElectricPowerUsage();
 		if (requestedOutput == Output.xml) {
+			String errorMessage = "Cannot parse xml data";
 			try {
-				ElectricPowerUsageSAXParser handler = new ElectricPowerUsageSAXParser();
-				SAXParser saxp = SAXParserFactory.newInstance().newSAXParser();
-				saxp.parse(
-						new ByteArrayInputStream(rawContent.getBytes("UTF-8")),
+				ElectricPowerUsageSAXHandler handler = new ElectricPowerUsageSAXHandler();
+				SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+				parser.parse(new ByteArrayInputStream(rawContent.getBytes("UTF-8")),
 						handler);
 				electricPowerUsage = handler.getElectricPowerUsage();
 			} catch (ParserConfigurationException e) {
-				throw new ClientException("Cannot read xml file!", e);
+				throw new ClientException(errorMessage, e);
 			} catch (SAXException e) {
-				throw new ClientException("Cannot read xml file!", e);
+				throw new ClientException(errorMessage, e);
 			} catch (IOException e) {
-				throw new ClientException("Cannot read xml file!", e);
+				throw new ClientException(errorMessage, e);
 			}
 		} else if (requestedOutput == Output.json) {
 			JSONObject json = JSONObject.fromObject(rawContent).getJSONObject(

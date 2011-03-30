@@ -18,7 +18,7 @@ package com.github.seratch.yahooapis.setsuden.scala.response
 import com.github.seratch.yahooapis.setsuden.exception.ClientException
 import net.sf.json.JSONObject
 import org.xml.sax.SAXException
-import com.github.seratch.yahooapis.setsuden.response.ElectricPowerUsageSAXParser
+import com.github.seratch.yahooapis.setsuden.response.ElectricPowerUsageSAXHandler
 import java.io.{ByteArrayInputStream, IOException}
 import javax.xml.parsers.{SAXParserFactory, ParserConfigurationException}
 import com.github.seratch.yahooapis.setsuden.fields.{Area, Output}
@@ -33,7 +33,7 @@ case class ElectricPowerUsageResponse(val statusCode: Int,
       case Output.xml => {
         val errorMessage = "Cannot parse xml data";
         try {
-          val handler: ElectricPowerUsageSAXParser = new ElectricPowerUsageSAXParser
+          val handler: ElectricPowerUsageSAXHandler = new ElectricPowerUsageSAXHandler
           val saxp = SAXParserFactory.newInstance.newSAXParser
           saxp.parse(new ByteArrayInputStream(rawContent.getBytes("UTF-8")), handler)
           return new ElectricPowerUsage(handler.getElectricPowerUsage)

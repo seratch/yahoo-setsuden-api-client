@@ -42,8 +42,9 @@ http://developer.yahoo.co.jp/webapi/shinsai/setsuden/v1/latestpowerusage.html
     ElectricPowerUsageResponse recent = client.getLatestPowerUsage();
 
     // 日時などを指定して電力使用状況を取得する
-    ElectricPowerUsageResponse response = client.getLatestPowerUsage(params);
     RequestParameters params = new RequestParameters(Area.tokyo, "2011032901");
+    ElectricPowerUsageResponse response = client.getLatestPowerUsage(params);
+
     System.out.println(response.getElectricPowerUsage());
     // ElectricPowerUsage [area:tokyo,usageKilowattPerHour:27300000,capacityKilowattPerHour:38500000,date:2011-03-29,hour:1]
 
@@ -57,6 +58,7 @@ http://developer.yahoo.co.jp/webapi/shinsai/setsuden/v1/latestpowerusage.html
 
     // 日時などを指定して電力使用状況を取得する
     val response = client.getLatestPowerUsage(RequestParameters(yyyymmddhh = "2011032901"))
+
     println(response.electricPowerUsage)
     // ElectricPowerUsage [area:tokyo,usageKilowattPerHour:27300000,capacityKilowattPerHour:38500000,date:2011-03-29,hour:1]
 

@@ -25,11 +25,15 @@ http://developer.yahoo.co.jp/webapi/shinsai/setsuden/v1/latestpowerusage.html
       ...
     </repositories>
 
-    <dependency>
-      <groupId>com.github.seratch</groupId>
-      <artifactId>yahoo-setsuden-api-client</artifactId>
-      <version>1.0</version>
-    </dependency>
+    <dependencies>
+      ...
+      <dependency>
+        <groupId>com.github.seratch</groupId>
+        <artifactId>yahoo-setsuden-api-client</artifactId>
+        <version>1.0</version>
+      </dependency>
+      ...
+    </dependencies>
 
 ## 実装サンプル
 

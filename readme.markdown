@@ -52,6 +52,21 @@ http://developer.yahoo.co.jp/webapi/shinsai/setsuden/v1/latestpowerusage.html
     System.out.println(response.getElectricPowerUsage());
     // ElectricPowerUsage [area:tokyo,usageKilowattPerHour:27300000,capacityKilowattPerHour:38500000,date:2011-03-29,hour:1]
 
+### Groovy版
+
+    def applicationId = "..."
+    def client = new SetsudenYahooApiClient(applicationId)
+
+    // 最新の電力使用状況を取得する
+    def recent  = client.getLatestPowerUsage()
+
+    // 日時などを指定して電力使用状況を取得する
+    def params = new RequestParameters(Area.tokyo, "2011032901")
+    def response = client.getLatestPowerUsage(params)
+
+    println response.electricPowerUsage.toString()
+    // ElectricPowerUsage [area:tokyo,usageKilowattPerHour:27300000,capacityKilowattPerHour:38500000,date:2011-03-29,hour:1]
+
 ### Scala版
 
     val applicationId = "..."

@@ -55,6 +55,24 @@
             <version>1.6.6</version>
             <scope>test</scope>
         </dependency>
+        <!-- Groovy -->
+        <dependency>
+            <groupId>org.codehaus.groovy.maven.runtime</groupId>
+            <artifactId>gmaven-runtime-1.6</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.codehaus.groovy</groupId>
+                    <artifactId>groovy-all-minimal</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>1.6.7</version>
+        </dependency>
         <!-- Joda Time -->
         <dependency>
             <groupId>joda-time</groupId>
@@ -179,6 +197,27 @@
                     <args>
                         <arg>-target:jvm-1.5</arg>
                     </args>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <version>1.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.groovy.maven.runtime</groupId>
+                        <artifactId>gmaven-runtime-1.6</artifactId>
+                        <version>1.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-all</artifactId>
+                        <version>1.6.7</version>
+                    </dependency>
+                </dependencies>
+
+                <configuration>
+                    <providerSelection>1.6</providerSelection>
                 </configuration>
             </plugin>
             <plugin>

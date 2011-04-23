@@ -31,8 +31,24 @@ object SetsudenYahooApiClientSpec extends Specification {
       try {
         props.load(SetsudenYahooApiClientSpec.getClass.getClassLoader.getResourceAsStream("yahoo-developer.properties"))
         val client = new SetsudenYahooApiClient(props.getProperty("applicationId"))
-        val params = new RequestParameters(yyyymmddhh = "2011032901", output = Output.json)
-        val response = client.getLatestPowerUsage(params)
+        val response = client.getLatestPowerUsage(RequestParameters(yyyymmddhh = "2011032901", output = Output.json))
+        response mustNotBe null
+        response.statusCode mustEqual 200
+        response.electricPowerUsage mustNotBe null
+        println(response.electricPowerUsage)
+      }
+      catch {
+        case e: Exception => {
+          e.printStackTrace
+        }
+      }
+    }
+    "be able to use specified parameters" in {
+      val props = new Properties
+      try {
+        props.load(SetsudenYahooApiClientSpec.getClass.getClassLoader.getResourceAsStream("yahoo-developer.properties"))
+        val client = new SetsudenYahooApiClient(props.getProperty("applicationId"))
+        val response = client.getLatestPowerUsage(RequestParameters(yyyymmddhh = "2011032901"))
         response mustNotBe null
         response.statusCode mustEqual 200
         response.electricPowerUsage mustNotBe null

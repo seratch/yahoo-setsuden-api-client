@@ -97,7 +97,7 @@ http://developer.yahoo.co.jp/webapi/shinsai/
     // 最新の電気予報を10件取得する
     ElectricPowerForecastResponse rencent = client.getElectricPowerForecasts();
 
-    // 日時などを指定して電力予報を取得する
+    // 日時などを指定して電気予報を取得する
     ElectricPowerForecastRequestParameters params = new ElectricPowerForecastRequestParameters(Area.tokyo, "20110429");
     ElectricPowerForecastResponse response = client.getElectricPowerForecasts(params);
 
@@ -117,7 +117,7 @@ http://developer.yahoo.co.jp/webapi/shinsai/
     // 最新の電気予報を10件取得する
     def recent = client.getElectricPowerForecasts()
 
-    // 日時などを指定して電力予報を取得する
+    // 日時などを指定して電気予報を取得する
     def params = new ElectricPowerForecastRequestParameters(Area.tokyo, "20110429")
     def responseForecasts = client.getElectricPowerForecasts(params)
 
@@ -137,7 +137,7 @@ http://developer.yahoo.co.jp/webapi/shinsai/
     // 最新の電気予報を10件取得する
     val recent = client.getElectricPowerForecasts();
 
-    // 日時などを指定して電力予報を取得する
+    // 日時などを指定して電気予報を取得する
     val response = client.getElectricPowerForecasts(ElectricPowerForecastResponse(yyyymmdd = "20110429"))
 
     response.electricPowerForecasts foreach { each =>

@@ -15,8 +15,10 @@
  */
 package com.github.seratch.yahooapis.setsuden;
 
-import com.github.seratch.yahooapis.setsuden.request.RequestParameters;
+import com.github.seratch.yahooapis.setsuden.request.ElectricPowerForecastRequestParameters;
+import com.github.seratch.yahooapis.setsuden.request.ElectricPowerUsageRequestParameters;
 import com.github.seratch.yahooapis.setsuden.request.Urls;
+import com.github.seratch.yahooapis.setsuden.response.ElectricPowerForecastResponse;
 import com.github.seratch.yahooapis.setsuden.response.ElectricPowerUsageResponse;
 
 import java.io.*;
@@ -34,11 +36,11 @@ public class SetsudenYahooApiClient {
 	}
 
 	public ElectricPowerUsageResponse getLatestPowerUsage() throws IOException {
-		return getLatestPowerUsage(new RequestParameters());
+		return getLatestPowerUsage(new ElectricPowerUsageRequestParameters());
 	}
 
 	public ElectricPowerUsageResponse getLatestPowerUsage(
-			RequestParameters params) throws IOException {
+			ElectricPowerUsageRequestParameters params) throws IOException {
 		StringBuilder url = new StringBuilder();
 		url.append(Urls.LATEST_POWER_USAGE);
 		url.append("?appid=");
@@ -53,6 +55,32 @@ public class SetsudenYahooApiClient {
 		conn.setRequestMethod("GET");
 		conn.connect();
 		ElectricPowerUsageResponse response = new ElectricPowerUsageResponse();
+		response.setRequestedOutput(params.getOutput());
+		response.setStatusCode(conn.getResponseCode());
+		response.setHeaders(conn.getHeaderFields());
+		response.setRawContent(getResponseCotent(conn, "UTF-8"));
+		return response;
+	}
+
+	public ElectricPowerForecastResponse getElectricPowerForecasts() throws IOException {
+		return getElectricPowerForecasts(new ElectricPowerForecastRequestParameters());
+	}
+
+	public ElectricPowerForecastResponse getElectricPowerForecasts(ElectricPowerForecastRequestParameters params) throws IOException {
+		StringBuilder url = new StringBuilder();
+		url.append(Urls.POWER_FORECAST);
+		url.append("?appid=");
+		url.append(applicationId);
+		url.append("&");
+		url.append(params.toString());
+		HttpURLConnection conn = (HttpURLConnection) new URL(url.toString())
+				.openConnection();
+		conn.setConnectTimeout(3000);
+		conn.setReadTimeout(10000);
+		conn.setRequestProperty("User-Agent", USER_AGENT);
+		conn.setRequestMethod("GET");
+		conn.connect();
+		ElectricPowerForecastResponse response = new ElectricPowerForecastResponse();
 		response.setRequestedOutput(params.getOutput());
 		response.setStatusCode(conn.getResponseCode());
 		response.setHeaders(conn.getHeaderFields());

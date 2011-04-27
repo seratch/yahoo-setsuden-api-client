@@ -22,4 +22,6 @@ public final class Urls {
 
 	public static String LATEST_POWER_USAGE = "http://setsuden.yahooapis.jp/v1/Setsuden/latestPowerUsage";
 
+	public static String POWER_FORECAST = "http://setsuden.yahooapis.jp/v1/Setsuden/electricPowerForecast";
+
 }

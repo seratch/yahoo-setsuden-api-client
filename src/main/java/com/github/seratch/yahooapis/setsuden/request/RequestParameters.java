@@ -18,102 +18,28 @@ package com.github.seratch.yahooapis.setsuden.request;
 import com.github.seratch.yahooapis.setsuden.fields.Area;
 import com.github.seratch.yahooapis.setsuden.fields.Output;
 
-public class RequestParameters {
+@Deprecated
+public class RequestParameters extends ElectricPowerUsageRequestParameters {
+
 
 	public RequestParameters() {
 	}
 
 	public RequestParameters(String yyyymmddhh) {
-		this.yyyymmddhh = yyyymmddhh;
+		super(yyyymmddhh);
 	}
 
 	public RequestParameters(Area area, String yyyymmddhh) {
-		this.area = area;
-		this.yyyymmddhh = yyyymmddhh;
+		super(area, yyyymmddhh);
 	}
 
 	public RequestParameters(Output output, Area area, String yyyymmddhh) {
-		this.output = output;
-		this.area = area;
-		this.yyyymmddhh = yyyymmddhh;
+		super(output, area, yyyymmddhh);
 	}
 
-	public RequestParameters(Output output, String jsonpCallbackUrl, Area area,
-							 String yyyymmddhh) {
-		this.output = output;
-		this.jsonpCallbackUrl = jsonpCallbackUrl;
-		this.area = area;
-		this.yyyymmddhh = yyyymmddhh;
+	public RequestParameters(Output output, String jsonpCallbackUrl, Area area, String yyyymmddhh) {
+		super(output, jsonpCallbackUrl, area, yyyymmddhh);
 	}
 
-	private Output output;
-
-	private String jsonpCallbackUrl;
-
-	private Area area = Area.tokyo;
-
-	private String yyyymmddhh;
-
-	public Output getOutput() {
-		return output == null ? Output.xml : output;
-	}
-
-	public void setOutput(Output output) {
-		this.output = output;
-	}
-
-	public String getJsonpCallbackUrl() {
-		return jsonpCallbackUrl;
-	}
-
-	public void setJsonpCallbackUrl(String jsonpCallbackUrl) {
-		this.jsonpCallbackUrl = jsonpCallbackUrl;
-	}
-
-	public Area getArea() {
-		return area;
-	}
-
-	public void setArea(Area area) {
-		this.area = area;
-	}
-
-	public String getYyyymmddhh() {
-		return yyyymmddhh;
-	}
-
-	public void setYyyymmddhh(String yyyymmddhh) {
-		this.yyyymmddhh = yyyymmddhh;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder buf = new StringBuilder();
-		if (output != null) {
-			if (buf.length() > 0)
-				buf.append("&");
-			buf.append("output=");
-			buf.append(output.toString());
-		}
-		if (jsonpCallbackUrl != null) {
-			if (buf.length() > 0)
-				buf.append("&");
-			buf.append("callback=");
-			buf.append(jsonpCallbackUrl);
-		}
-		if (area != null) {
-			if (buf.length() > 0)
-				buf.append("&");
-			buf.append("area=");
-			buf.append(area.toString());
-		}
-		if (yyyymmddhh != null) {
-			if (buf.length() > 0)
-				buf.append("&");
-			buf.append("datetime=");
-			buf.append(yyyymmddhh);
-		}
-		return buf.toString();
-	}
 
 }

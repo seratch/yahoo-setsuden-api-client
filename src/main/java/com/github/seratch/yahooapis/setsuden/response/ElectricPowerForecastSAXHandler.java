@@ -16,23 +16,42 @@
 package com.github.seratch.yahooapis.setsuden.response;
 
 import com.github.seratch.yahooapis.setsuden.fields.Area;
+import org.joda.time.DateTime;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class ElectricPowerUsageSAXHandler extends DefaultHandler {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ElectricPowerForecastSAXHandler extends DefaultHandler {
 
 	private String tagName = "";
 
-	private ElectricPowerUsage electricPowerUsage = new ElectricPowerUsage();
+	private DateTime currentTime;
 
-	public ElectricPowerUsage getElectricPowerUsage() {
-		return electricPowerUsage;
+	private DateTime updateTime;
+
+	private List<ElectricPowerForecast> electricPowerForecasts = new ArrayList<ElectricPowerForecast>();
+
+	ElectricPowerForecast getCurrentElement() {
+		return electricPowerForecasts.get(electricPowerForecasts.size() - 1);
+	}
+
+	public List<ElectricPowerForecast> getElectricPowerForecasts() {
+		return electricPowerForecasts;
+	}
+
+	public DateTime getCurrentTime() {
+		return currentTime;
+	}
+
+	public DateTime getUpdateTime() {
+		return updateTime;
 	}
 
 	@Override
-	public void startElement(String uri, String localName, String name,
-							 Attributes attributes) throws SAXException {
+	public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
 		if (!"".equals(name)) {
 			tagName = name;
 		}
@@ -42,26 +61,36 @@ public class ElectricPowerUsageSAXHandler extends DefaultHandler {
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
 		super.characters(ch, start, length);
+		if ("CurrentTime".equals(tagName)) {
+			String value = new String(ch, start, length);
+			currentTime = ElectricPowerForecast.getTimeFormat().parseDateTime(value);
+		}
+		if ("UpdateTime".equals(tagName)) {
+			String value = new String(ch, start, length);
+			updateTime = ElectricPowerForecast.getTimeFormat().parseDateTime(value);
+		}
+		if ("Forecast".equals(tagName)) {
+			electricPowerForecasts.add(new ElectricPowerForecast());
+		}
 		if ("Area".equals(tagName)) {
 			String value = new String(ch, start, length);
-			electricPowerUsage.setArea(Area.valueOf(value));
+			getCurrentElement().setArea(Area.valueOf(value));
 		}
 		if ("Usage".equals(tagName)) {
 			String value = new String(ch, start, length);
-			electricPowerUsage.setUsageKilowattPerHour(Long.valueOf(value));
+			getCurrentElement().setUsageKilowattPerHour(Long.valueOf(value));
 		}
 		if ("Capacity".equals(tagName)) {
 			String value = new String(ch, start, length);
-			electricPowerUsage.setCapacityKilowattPerHour(Long.valueOf(value));
+			getCurrentElement().setCapacityKilowattPerHour(Long.valueOf(value));
 		}
 		if ("Date".equals(tagName)) {
 			String value = new String(ch, start, length);
-			electricPowerUsage.setDate(electricPowerUsage.getDateFormat()
-					.parseDateTime(value).toLocalDate());
+			getCurrentElement().setDate(ElectricPowerForecast.getDateFormat().parseDateTime(value).toLocalDate());
 		}
 		if ("Hour".equals(tagName)) {
 			String value = new String(ch, start, length);
-			electricPowerUsage.setHour(Integer.valueOf(value));
+			getCurrentElement().setHour(Integer.valueOf(value));
 		}
 	}
 

@@ -15,21 +15,19 @@
  */
 package com.github.seratch.yahooapis.setsuden.scala
 
-import com.github.seratch.yahooapis.setsuden.scala.request.RequestParameters
-import com.github.seratch.yahooapis.setsuden.scala.response.ElectricPowerUsageResponse
 import com.github.seratch.yahooapis.setsuden.request.Urls
 import java.net.{URL, HttpURLConnection}
 import java.io.{InputStreamReader, BufferedReader, InputStream}
+import request.{ElectricPowerForecastRequestParameters, ElectricPowerUsageRequestParameters}
+import response.{ElectricPowerForecastResponse, ElectricPowerUsageResponse}
 
 class SetsudenYahooApiClient(val applicationId: String) {
 
   val USER_AGENT = "SetsudenYahooApiClient HTTP Fetcher (+https://github.com/seratch/yahoo-setsuden-api-client)"
 
-  def getLatestPowerUsage(): ElectricPowerUsageResponse = {
-    return getLatestPowerUsage(new RequestParameters)
-  }
+  def getLatestPowerUsage(): ElectricPowerUsageResponse = getLatestPowerUsage(new ElectricPowerUsageRequestParameters())
 
-  def getLatestPowerUsage(params: RequestParameters): ElectricPowerUsageResponse = {
+  def getLatestPowerUsage(params: ElectricPowerUsageRequestParameters): ElectricPowerUsageResponse = {
 
     val url = new StringBuilder
     url.append(Urls.LATEST_POWER_USAGE)
@@ -57,7 +55,46 @@ class SetsudenYahooApiClient(val applicationId: String) {
           headersInJava.get(key).asScala.toList)
     }
 
-    return ElectricPowerUsageResponse(
+    ElectricPowerUsageResponse(
+      statusCode = conn.getResponseCode.intValue,
+      headers = headerMapBuffer.toMap,
+      rawContent = getResponseCotent(conn, "UTF-8"),
+      requestedOutput = params.output
+    )
+
+  }
+
+  def getPowerForecasts(): ElectricPowerForecastResponse = getPowerForecasts(new ElectricPowerForecastRequestParameters())
+
+  def getPowerForecasts(params: ElectricPowerForecastRequestParameters): ElectricPowerForecastResponse = {
+
+    val url = new StringBuilder
+    url.append(Urls.POWER_FORECAST)
+    url.append("?appid=")
+    url.append(applicationId)
+    url.append("&")
+    url.append(params.toString)
+
+    val conn = new URL(url.toString).openConnection.asInstanceOf[HttpURLConnection]
+    conn.setConnectTimeout(3000)
+    conn.setReadTimeout(10000)
+    conn.setRequestProperty("User-Agent", USER_AGENT)
+    conn.setRequestMethod("GET")
+
+    conn.connect()
+
+    import scala.collection.JavaConverters._
+
+    val headersInJava = conn.getHeaderFields
+    val headerMapBuffer = new collection.mutable.HashMap[String, List[String]]
+    headersInJava.keySet.asScala foreach {
+      case key =>
+        headerMapBuffer.update(
+          key,
+          headersInJava.get(key).asScala.toList)
+    }
+
+    ElectricPowerForecastResponse(
       statusCode = conn.getResponseCode.intValue,
       headers = headerMapBuffer.toMap,
       rawContent = getResponseCotent(conn, "UTF-8"),

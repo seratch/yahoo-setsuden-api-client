@@ -17,46 +17,8 @@ package com.github.seratch.yahooapis.setsuden.scala.request
 
 import com.github.seratch.yahooapis.setsuden.fields._
 
-case class RequestParameters(val output: Output = Output.xml,
-                             val jsonpCallbackUrl: String = null,
-                             val area: Area = Area.tokyo,
-                             val yyyymmddhh: String = null) {
-
-  override def toString: String = {
-    val buf = new StringBuilder
-    output match {
-      case null =>
-      case _ => {
-        if (buf.length > 0) buf.append("&")
-        buf.append("output=")
-        buf.append(output.toString)
-      }
-    }
-    jsonpCallbackUrl match {
-      case null =>
-      case _ => {
-        if (buf.length > 0) buf.append("&")
-        buf.append("callback=")
-        buf.append(jsonpCallbackUrl)
-      }
-    }
-    area match {
-      case null =>
-      case _ => {
-        if (buf.length > 0) buf.append("&")
-        buf.append("area=")
-        buf.append(area.toString)
-      }
-    }
-    yyyymmddhh match {
-      case null =>
-      case _ => {
-        if (buf.length > 0) buf.append("&")
-        buf.append("datetime=")
-        buf.append(yyyymmddhh)
-      }
-    }
-    return buf.toString
-  }
-
-}
+@Deprecated
+case class RequestParameters(override val output: Output = Output.xml,
+                             override val jsonpCallbackUrl: String = null,
+                             override val area: Area = Area.tokyo,
+                             override val yyyymmddhh: String = null) extends ElectricPowerUsageRequestParameters

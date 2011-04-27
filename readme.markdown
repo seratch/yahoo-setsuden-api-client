@@ -7,6 +7,7 @@ http://developer.yahoo.co.jp/webapi/shinsai/
 以下のAPIに対応しています。
 
 ・電力使用状況API
+
 ・電気予報API
 
 ## インストール方法

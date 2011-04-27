@@ -16,7 +16,7 @@ http://developer.yahoo.co.jp/webapi/shinsai/
 
     ./download/yahoo-setsuden-api-client-1.1.jar
 
-### Maven2経由
+### Maven
 
     <repositories>
       ...

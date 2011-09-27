@@ -2,7 +2,7 @@
 
 Yahoo!デベロッパーネットワーク 震災関連情報Web APIのJava/Scalaのクライアント実装です。
 
-http://developer.yahoo.co.jp/webapi/shinsai/
+  [http://developer.yahoo.co.jp/webapi/shinsai/](http://developer.yahoo.co.jp/webapi/shinsai/)
 
 以下のAPIに対応しています。
 
@@ -12,33 +12,22 @@ http://developer.yahoo.co.jp/webapi/shinsai/
 
 ## インストール方法
 
-### ダウンロード
-
-    ./download/yahoo-setsuden-api-client-1.1.jar
-
 ### Maven
 
     <repositories>
-      ...
       <repository>
-        <id>yahoo-setsuden-api-client-releases</id>
-        <url>https://github.com/seratch/yahoo-setsuden-api-client/raw/master/mvn-repo/releases</url>
+        <id>seratch.github.com releases</id>
+        <name>seratch.github.com releases</name>
+        <url>http://seratch.github.com/mvn-repo/releases</url>
       </repository>
-      <repository>
-        <id>yahoo-setsuden-api-client-snapshots</id>
-        <url>https://github.com/seratch/yahoo-setsuden-api-client/raw/master/mvn-repo/snapshots</url>
-      </repository>
-      ...
     </repositories>
 
     <dependencies>
-      ...
       <dependency>
         <groupId>com.github.seratch</groupId>
         <artifactId>yahoo-setsuden-api-client</artifactId>
         <version>1.1</version>
       </dependency>
-      ...
     </dependencies>
 
 ## 実装サンプル(電力使用状況API)
